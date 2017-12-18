@@ -13,6 +13,10 @@ public class PokemonAdapter extends
 
     private List<Pokemon> pokemonList;
 
+    public PokemonAdapter(List<Pokemon> pokemonList) {
+        this.pokemonList = pokemonList;
+    }
+
     public class PokeViewHolder extends RecyclerView.ViewHolder {
 
         public TextView name, type;
@@ -22,10 +26,6 @@ public class PokemonAdapter extends
             name = (TextView) itemView.findViewById(R.id.tv_name);
             type = (TextView) itemView.findViewById(R.id.tv_type);
         }
-    }
-
-    public PokemonAdapter(List<Pokemon> pokemonList) {
-        this.pokemonList = pokemonList;
     }
 
     @Override
