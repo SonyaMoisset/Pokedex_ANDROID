@@ -25,10 +25,25 @@ public class MainActivity extends AppCompatActivity {
         pokemonAdapter = new PokemonAdapter(pokemonList);
 
         RecyclerView.LayoutManager layoutManager;
-        layoutManager = new LinearLayoutManager(getApplicationContext());
+        layoutManager = new LinearLayoutManager(this);
 
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(pokemonAdapter);
+
+        addData();
+    }
+
+    private void addData() {
+        Pokemon poke;
+
+        poke = new Pokemon("Bulbasaur", "Grass");
+        pokemonList.add(poke);
+
+        poke = new Pokemon("Charmander", "Fire");
+        pokemonList.add(poke);
+
+        poke = new Pokemon("Squirtle", "Water");
+        pokemonList.add(poke);
     }
 }
