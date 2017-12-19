@@ -5,9 +5,13 @@ import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -35,15 +39,32 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void addData() {
-        Pokemon poke;
+        ApiInterface apiService = ApiClient.getClient().create(ApiInterface.class);
 
-        poke = new Pokemon("Bulbasaur", "Grass");
-        pokemonList.add(poke);
+        for (int i = 1; i <= 30; i++) {
+            retrofit2.Call<Pokemon> call = apiService.getPokemon(i);
+            call.enqueue(new Callback<Pokemon>() {
+                @Override
+                public void onResponse(retrofit2.Call<Pokemon> call, Response<Pokemon> response) {
+                    if (response.isSuccessful()) {
+                        Pokemon pokemon = response.body();
 
-        poke = new Pokemon("Charmander", "Fire");
-        pokemonList.add(poke);
+                        pokemonList.add(pokemon);
+                        pokemonAdapter.notifyDataSetChanged();
 
-        poke = new Pokemon("Squirtle", "Water");
-        pokemonList.add(poke);
+                        Log.i("POKEMON", "Name: " + pokemon.getName());
+                        Log.i("POKEMON", "Attack: " + pokemon.getAttack());
+                        Log.i("POKEMON", "Defense: " + pokemon.getDefense());
+                        Log.i("POKEMON", "Health: " + pokemon.getHealth());
+                        Log.i("POKEMON", "Height: " + pokemon.getHeight());
+                        Log.i("POKEMON", "Weight: " + pokemon.getWeight());
+                    }
+                }
+
+                @Override
+                public void onFailure(retrofit2.Call<Pokemon> call, Throwable t) {
+                }
+            });
+        }
     }
 }
